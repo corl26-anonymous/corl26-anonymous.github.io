@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="Overcoming Bootstrap Bias in TD-MPC for Robust Robot Control with World Models. Three minimal, toggleable changes to policy-constrained TD-MPC that fix a bootstrap-bias bottleneck: multi-step TD targets, uncertainty-aware terminal values, and return-weighted actor distillation.">
+  <meta name="keywords" content="Model-Based RL, Humanoid Control, World Models, TD-MPC, Uncertainty-Aware Planning, HumanoidBench">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Open Graph (anonymous) -->
+  <meta property="og:title" content="Overcoming Bootstrap Bias in TD-MPC for Robust Robot Control">
+  <meta property="og:description" content="A bootstrap-bias bottleneck in TD-MPC, fixed with three minimal changes. CoRL 2026 (under review).">
+  <meta property="og:type" content="website">
+
+  <title>Overcoming Bootstrap Bias in TD-MPC</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/custom.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+</head>
+<body>
+
+<!-- ============================ NAVBAR ============================ -->
+<nav class="navbar is-fixed-top site-navbar" role="navigation" aria-label="main navigation">
+  <div class="container is-max-widescreen">
+    <div class="navbar-brand">
+      <a class="navbar-item brand-text" href="#top">
+        Overcoming Bootstrap Bias
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navMenu" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#real-demos">Demos</a>
+        <a class="navbar-item" href="#method">Method</a>
+        <a class="navbar-item" href="#results">Results</a>
+        <a class="navbar-item" href="#matched">Matched Budget</a>
+        <a class="navbar-item" href="#ablations">Ablations</a>
+        <a class="navbar-item" href="#robot">Real Robot</a>
+        <a class="navbar-item" href="#scope">Scope</a>
+        <a class="navbar-item" href="#details">Details</a>
+        <a class="navbar-item" href="#code">Code &amp; Data</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<span id="top"></span>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero hero-head-section">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <span class="tag venue-pill">CoRL 2026 &middot; Under Review</span>
+      <h1 class="title is-2 publication-title">
+        Overcoming Bootstrap Bias in TD-MPC<br>for Robust Robot Control with World Models
+      </h1>
+
+      <div class="is-size-5 publication-authors">
+        <span class="author-block">Anonymous Author(s)</span>
+      </div>
+      <div class="is-size-6 publication-authors has-text-grey">
+        <span class="author-block">Submitted to the 10th Conference on Robot Learning</span>
+      </div>
+
+      <div class="publication-links">
+        <span class="link-block">
+          <a href="#" class="button is-rounded is-dark is-medium" data-anon-link>
+            <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="#" class="button is-rounded is-dark is-medium" data-anon-link>
+            <span class="icon"><i class="fas fa-pen-to-square"></i></span><span>OpenReview</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="#code" class="button is-rounded is-dark is-medium">
+            <span class="icon"><i class="fab fa-github"></i></span><span>Code &amp; Data</span>
+          </a>
+        </span>
+      </div>
+      <p class="anon-note">Links are anonymized for double-blind review.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ REAL-ROBOT DEMOS (TOP SHOWCASE) ============================ -->
+<section class="section realdemo-section pt-0" id="real-demos">
+  <div class="container is-max-widescreen">
+    <p class="hook-line has-text-centered">
+      Trained in simulation. <span class="hook-em">Deployed zero&#8209;shot on hardware.</span>
+    </p>
+    <p class="subhook has-text-centered">
+      Wrench&#8209;into&#8209;nut insertion on a 7&#8209;DoF Kuka iiwa14, trained only in simulation and run <b>zero&#8209;shot</b>.
+      <b>Our policy completes the insertion across wrench sizes</b>, including <b>unseen</b> ones; the
+      policy&#8209;constrained <b>TD&#8209;M(PC)<sup>2</sup> baseline times out</b> on the harder trials.
+    </p>
+
+    <h3 class="subhead demo-subhead"><i class="fas fa-robot"></i> On the real robot <span class="subhead-sub">zero&#8209;shot, across wrench sizes</span></h3>
+    <div class="compare-wrap rr-stage">
+      <div class="compare-col">
+        <div class="compare-badge is-ours"><i class="fas fa-check-circle"></i>&nbsp;Ours &middot; insertion succeeds</div>
+        <div class="video-frame">
+          <video id="rr-ours" class="rollout-video" playsinline autoplay loop muted></video>
+        </div>
+      </div>
+      <div class="compare-vs">vs</div>
+      <div class="compare-col">
+        <div class="compare-badge is-base" id="rr-base-badge"><i class="fas fa-times-circle"></i>&nbsp;TD&#8209;M(PC)<sup>2</sup> baseline &middot; times out</div>
+        <div class="video-frame">
+          <video id="rr-base" class="rollout-video" playsinline autoplay loop muted></video>
+        </div>
+      </div>
+    </div>
+    <p class="caption has-text-centered" id="rr-caption"></p>
+
+    <div class="rr-switch" id="rr-switch">
+      <div class="rr-group">
+        <span class="rr-group-label"><i class="fas fa-bullseye"></i>&nbsp;In&#8209;distribution &middot; wrench size 5</span>
+        <div class="rr-chips">
+          <button class="rr-chip is-active" data-idx="0">video 1</button>
+          <button class="rr-chip" data-idx="1">video 2</button>
+          <button class="rr-chip" data-idx="2">video 3</button>
+        </div>
+      </div>
+      <div class="rr-group">
+        <span class="rr-group-label"><i class="fas fa-arrows-left-right-to-line"></i>&nbsp;Generalization &middot; unseen wrench size 3</span>
+        <div class="rr-chips">
+          <button class="rr-chip" data-idx="3">video 4</button>
+          <button class="rr-chip" data-idx="4">video 5</button>
+        </div>
+      </div>
+      <div class="rr-group">
+        <span class="rr-group-label"><i class="fas fa-arrows-left-right-to-line"></i>&nbsp;Generalization &middot; unseen wrench size 1 (hardest)</span>
+        <div class="rr-chips">
+          <button class="rr-chip" data-idx="5">video 6</button>
+        </div>
+      </div>
+    </div>
+    <p class="caption has-text-centered rr-foot">
+      Same controller, reward, and training as in simulation, with <b>no real&#8209;world fine&#8209;tuning</b>. Wrench size 5 matches
+      the simulation training distribution; sizes 3 and 1 are <b>unseen</b> and probe generalization. Size 1 is the hardest;
+      in the clip shown both methods complete the insertion, but see the per&#8209;size success rates in the
+      <a href="#robot">full results</a> below.
+    </p>
+
+    <h3 class="subhead demo-subhead"><i class="fas fa-cubes"></i> The same task in simulation <span class="subhead-sub">size 5 &middot; ours vs. vanilla baseline, 5 scenes each</span></h3>
+    <div class="sim-pairs">
+      <div class="sim-pair">
+        <div class="sim-duo">
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/ours_rhythmic_insertion_succ.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/baseline_rhythmic_insertion_fail.mp4" type="video/mp4"></video><span class="sim-badge fail"><i class="fas fa-times"></i></span></div>
+        </div>
+        <div class="sim-pair-foot"><span>Ours</span><span>Vanilla</span></div>
+      </div>
+      <div class="sim-pair">
+        <div class="sim-duo">
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/ours_rhythmic_insertion_succ2.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/baseline_rhythmic_insertion_fail2.mp4" type="video/mp4"></video><span class="sim-badge fail"><i class="fas fa-times"></i></span></div>
+        </div>
+        <div class="sim-pair-foot"><span>Ours</span><span>Vanilla</span></div>
+      </div>
+      <div class="sim-pair">
+        <div class="sim-duo">
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/ours_rhythmic_insertion_succ3.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/baseline_rhythmic_insertion_fail3.mp4" type="video/mp4"></video><span class="sim-badge fail"><i class="fas fa-times"></i></span></div>
+        </div>
+        <div class="sim-pair-foot"><span>Ours</span><span>Vanilla</span></div>
+      </div>
+      <div class="sim-pair">
+        <div class="sim-duo">
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/ours_rhythmic_insertion_succ4.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/baseline_rhythmic_insertion_succ1.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+        </div>
+        <div class="sim-pair-foot"><span>Ours</span><span>Vanilla</span></div>
+      </div>
+      <div class="sim-pair">
+        <div class="sim-duo">
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/ours_rhythmic_insertion_succ5.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+          <div class="sim-clip"><video playsinline autoplay loop muted><source src="./static/data/videos/baseline_rhythmic_insertion_succ2.mp4" type="video/mp4"></video><span class="sim-badge ok"><i class="fas fa-check"></i></span></div>
+        </div>
+        <div class="sim-pair-foot"><span>Ours</span><span>Vanilla</span></div>
+      </div>
+    </div>
+    <p class="caption has-text-centered">Each pair is <b>our method beside the vanilla TD&#8209;M(PC)<sup>2</sup> baseline</b> on a random size&#8209;5 scene:
+      <span style="color:#1f7a4d;font-weight:600">green&nbsp;= inserted</span>, <span style="color:#c0392b;font-weight:600">red&nbsp;= timed out</span>.
+      Ours inserts on all five; the baseline times out on three. <a href="#robot">Full simulation &amp; hardware numbers &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ============================ TEASER (HERO ROLLOUT) ============================ -->
+<section class="section teaser-section pt-0">
+  <div class="container is-max-widescreen">
+    <p class="hook-line has-text-centered">
+      Planners discover robust behavior. <span class="hook-em">Bootstrapped critics throw it away.</span>
+    </p>
+    <p class="subhook has-text-centered">
+      We diagnose a <b>bootstrap&#8209;bias bottleneck</b> in policy&#8209;constrained TD&#8209;MPC and fix it with
+      three minimal, toggleable changes that recover full&#8209;episode balancing where strong baselines fall.
+    </p>
+
+    <!-- ============ Qualitative comparison: balance_hard ============ -->
+    <div class="qual-block">
+      <h3 class="qual-task"><code>balance_hard</code>: stay up on an unstable board</h3>
+      <p class="qual-tag">The support (pivot + board) shifts under the robot, so <b>every step is a recovery</b>, with no falls allowed and no resets.</p>
+      <p class="qual-spec"><i class="fas fa-robot"></i> Unitree H1 + two dexterous Shadow Hands &middot; 61&#8209;D actions @ 50&nbsp;Hz &middot; 151&#8209;D state &middot; 75&nbsp;DoF &middot; 1000&#8209;step episodes</p>
+      <div class="compare-wrap">
+        <div class="compare-col">
+          <div class="compare-badge is-ours"><i class="fas fa-check-circle"></i>&nbsp;Ours</div>
+          <div class="video-frame" data-placeholder>
+            <video class="rollout-video" playsinline autoplay loop muted poster="">
+              <source src="./static/data/videos/balance_hard_ours_succ_video1.mp4" type="video/mp4">
+            </video>
+            <div class="placeholder-overlay"><i class="fas fa-video"></i><span>balance_hard &middot; Ours</span><code>balance_hard_ours_succ_video1.mp4</code></div>
+          </div>
+          <div class="qual-stat ours">
+            <div class="qual-ret">387 <span class="pm">&plusmn; 255</span></div>
+            <div class="qual-lab">avg. return</div>
+            <p><b>Survives the full episode.</b> 1000&nbsp;/&nbsp;1000 steps, task&#8209;success criterion met, and recovers from every board shift.</p>
+          </div>
+        </div>
+        <div class="compare-vs">vs</div>
+        <div class="compare-col">
+          <div class="compare-badge is-base"><i class="fas fa-times-circle"></i>&nbsp;TD&#8209;M(PC)<sup>2</sup> baseline</div>
+          <div class="video-frame" data-placeholder>
+            <video class="rollout-video" playsinline autoplay loop muted poster="">
+              <source src="./static/data/videos/balance_hard_tdmpc_square_fail_video1.mp4" type="video/mp4">
+            </video>
+            <div class="placeholder-overlay"><i class="fas fa-video"></i><span>balance_hard &middot; baseline</span><code>balance_hard_tdmpc_square_fail_video1.mp4</code></div>
+          </div>
+          <div class="qual-stat base">
+            <div class="qual-ret">98 <span class="pm">&plusmn; 18</span></div>
+            <div class="qual-lab">avg. return</div>
+            <p><b>Fails almost immediately.</b> Down after ~110 steps (about 11% of the episode), and never recovers a slip.</p>
+          </div>
+        </div>
+      </div>
+      <p class="qual-improve"><i class="fas fa-arrow-trend-up"></i>&nbsp; <b>~1.6&times; to 5.5&times;</b> higher average return</p>
+    </div>
+
+    <!-- ============ Qualitative comparison: hurdle ============ -->
+    <div class="qual-block">
+      <h3 class="qual-task"><code>hurdle</code>: sprint and clear hurdle after hurdle</h3>
+      <p class="qual-tag">Run at <b>5&nbsp;m/s</b> while clearing a sequence of hurdles; hit one at speed and the robot usually goes down.</p>
+      <p class="qual-spec"><i class="fas fa-robot"></i> Unitree H1 + two dexterous Shadow Hands &middot; 61&#8209;D actions @ 50&nbsp;Hz &middot; 151&#8209;D state &middot; 75&nbsp;DoF &middot; 1000&#8209;step episodes</p>
+      <div class="compare-wrap">
+        <div class="compare-col">
+          <div class="compare-badge is-ours"><i class="fas fa-check-circle"></i>&nbsp;Ours</div>
+          <div class="video-frame" data-placeholder>
+            <video class="rollout-video" playsinline autoplay loop muted poster="">
+              <source src="./static/data/videos/hurdle_ours_succ_video1.mp4" type="video/mp4">
+            </video>
+            <div class="placeholder-overlay"><i class="fas fa-video"></i><span>hurdle &middot; Ours</span><code>hurdle_ours_succ_video1.mp4</code></div>
+          </div>
+          <div class="qual-stat ours">
+            <div class="qual-ret">466 <span class="pm">&plusmn; 200</span></div>
+            <div class="qual-lab">avg. return</div>
+            <p><b>Clears every hurdle at speed.</b> 1000&nbsp;/&nbsp;1000 steps, task&#8209;success criterion met, and recovers its stride after each contact.</p>
+          </div>
+        </div>
+        <div class="compare-vs">vs</div>
+        <div class="compare-col">
+          <div class="compare-badge is-base"><i class="fas fa-times-circle"></i>&nbsp;TD&#8209;M(PC)<sup>2</sup> baseline</div>
+          <div class="video-frame" data-placeholder>
+            <video class="rollout-video" playsinline autoplay loop muted poster="">
+              <source src="./static/data/videos/hurdle_tdmpc_square_fail_video1.mp4" type="video/mp4">
+            </video>
+            <div class="placeholder-overlay"><i class="fas fa-video"></i><span>hurdle &middot; baseline</span><code>hurdle_tdmpc_square_fail_video1.mp4</code></div>
+          </div>
+          <div class="qual-stat base">
+            <div class="qual-ret">199 <span class="pm">&plusmn; 13</span></div>
+            <div class="qual-lab">avg. return</div>
+            <p><b>Crashes at the first hurdle.</b> Learns to <i>run</i>, but never to <i>cross</i>: it falls on the first hurdle every time.</p>
+          </div>
+        </div>
+      </div>
+      <p class="qual-improve"><i class="fas fa-arrow-trend-up"></i>&nbsp; <b>~1.4&times; to 3.1&times;</b> higher average return</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HEADLINE STATS ============================ -->
+<section class="section stats-section pt-2">
+  <div class="container is-max-widescreen">
+    <div class="columns is-multiline is-centered">
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num">276&nbsp;<i class="fas fa-arrow-right-long stat-arrow"></i>&nbsp;705</div>
+          <div class="stat-label">Whole&#8209;body manipulation TAR<br><span class="stat-sub">vs. TD&#8209;MPC2 &middot; +156%</span></div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num">4.8&times;</div>
+          <div class="stat-label"><code>balance_hard</code> return over the<br><span class="stat-sub">policy&#8209;constrained baseline (81&rarr;387)</span></div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num">74.2%</div>
+          <div class="stat-label">Zero&#8209;shot real&#8209;robot insertion<br><span class="stat-sub">vs. 61.3% baseline</span></div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num">927</div>
+          <div class="stat-label">DMControl avg. preserved<br><span class="stat-sub">no trade&#8209;off vs. strongest baselines</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ABSTRACT ============================ -->
+<section class="section abstract-section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Planning with learned predictive models has become a leading paradigm for high&#8209;dimensional robot
+            control. TD&#8209;MPC couples Temporal&#8209;Difference Q&#8209;learning with Model&#8209;Predictive Control: a learned
+            world model enables short&#8209;horizon MPPI planning, while a learned critic supplies value estimates for
+            both actor improvement and planner evaluation. This makes critic learning central to the TD&#8209;MPC loop.
+            However, the critic is trained on planner&#8209;collected transitions but <b>bootstraps through actions
+            predicted by the learned actor</b>, allowing value learning to inherit actor&#8209;dependent errors. At the
+            same time, high&#8209;return behaviors discovered by planning are transferred back to the actor only
+            indirectly through the learned critic.
+          </p>
+          <p>
+            We address these coupled bottlenecks with three changes to TD&#8209;M(PC)<sup>2</sup>, a policy&#8209;constrained
+            TD&#8209;MPC variant. First, <b>multi&#8209;step TD targets</b> shift credit from terminal bootstraps toward
+            realized rewards. Second, <b>uncertainty&#8209;aware terminal values</b> downweight the bootstrap whenever the
+            Q&#8209;ensemble disagrees. Third, <b>return&#8209;weighted actor distillation</b> transfers successful
+            planner&#8209;generated behavior directly into the actor. Together, these components preserve the standard
+            TD&#8209;MPC training and planning loop while improving long&#8209;horizon credit assignment, limiting the
+            planner's reliance on unreliable terminal values, and directly reusing high&#8209;return planning experience.
+            Empirical results on <i>HumanoidBench</i> locomotion show consistent improvements over the strongest
+            published baselines on challenging tasks. We additionally evaluate on <i>DMControl</i>, and a real&#8209;world
+            tool&#8209;use task, finding that performance is preserved: the improvements do not trade off against
+            standard benchmark robustness.
+          </p>
+        </div>
+        <p class="keywords-line"><b>Keywords:</b> Model&#8209;Based RL &middot; Humanoid Control &middot; Uncertainty&#8209;Aware Planning</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ METHOD ============================ -->
+<section class="section method-section" id="method">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">The Bootstrap&#8209;Bias Bottleneck</h2>
+    <p class="section-lead has-text-centered">
+      In policy&#8209;constrained TD&#8209;MPC, the critic both trains the actor and supplies the planner's terminal value.
+      Two coupled failure modes propagate through this loop.
+    </p>
+
+    <!-- Diagram placeholder / SVG mount -->
+    <div id="method-diagram" class="method-diagram"></div>
+
+    <div class="columns is-centered mt-4">
+      <div class="column is-half">
+        <div class="bottleneck-card">
+          <span class="bottleneck-num">1</span>
+          <h4 class="bottleneck-title">Actor&#8209;dependent bootstrap</h4>
+          <p>The TD target evaluates future value at the <i>actor's</i> predicted action (not the action the
+          planner executed), so actor errors enter the value target and, through the critic, the planner's terminal.</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="bottleneck-card">
+          <span class="bottleneck-num">2</span>
+          <h4 class="bottleneck-title">Indirect behavior transfer</h4>
+          <p>Rare high&#8209;return planner trajectories reach the actor only after propagating into Q&#8209;values, which is
+          slow in long&#8209;horizon tasks where useful reward signals are delayed or sparse relative to the bootstrap.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="title is-3 has-text-centered mt-6">Three Minimal, Toggleable Changes</h2>
+    <p class="section-lead has-text-centered">
+      Each adapts a known idea to a distinct subsystem of the TD&#8209;MPC loop. The encoder, latent dynamics,
+      reward model, Q&#8209;ensemble, and MPPI sampling are otherwise unchanged.
+    </p>
+
+    <div class="columns is-multiline component-cards">
+      <div class="column is-4">
+        <div class="component-card">
+          <div class="component-icon"><i class="fas fa-stairs"></i></div>
+          <h4 class="component-title">Multi&#8209;step TD targets</h4>
+          <p class="component-sub">critic training</p>
+          <p>An <i>n</i>&#8209;step target (<i>n</i>=3) reads realized rewards from replay, delaying and scaling the
+          actor&#8209;evaluated bootstrap by &gamma;<sup>n</sup>. The target leans on rewards observed under
+          planner&#8209;executed behavior rather than the actor's predicted bootstrap.</p>
+          <div class="component-fix">Targets bottleneck&nbsp;1</div>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="component-card">
+          <div class="component-icon"><i class="fas fa-scale-balanced"></i></div>
+          <h4 class="component-title">Uncertainty&#8209;aware terminal values</h4>
+          <p class="component-sub">planner scoring</p>
+          <p>The MPPI terminal value is penalized by Q&#8209;ensemble disagreement, with an adaptive coefficient
+          (&lambda;<sub>max</sub>=0.5). When heads agree the baseline is recovered; when they disagree, trajectories
+          relying on an unreliable terminal bootstrap are discouraged.</p>
+          <div class="component-fix">Limits planner over&#8209;reliance on the critic</div>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="component-card">
+          <div class="component-icon"><i class="fas fa-arrow-right-to-bracket"></i></div>
+          <h4 class="component-title">Return&#8209;weighted distillation</h4>
+          <p class="component-sub">actor learning</p>
+          <p>A return&#8209;weighted maximum&#8209;likelihood term gives the actor a direct supervised signal from
+          high&#8209;return planner episodes, shaping the policy <i>before</i> its value has fully propagated through
+          the critic.</p>
+          <div class="component-fix">Targets bottleneck&nbsp;2</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="title is-3 has-text-centered mt-6">Where we expect it to help</h2>
+    <p class="section-lead has-text-centered">
+      A coarse reward&#8209;structure taxonomy of the evaluated tasks. The mechanism is designed for
+      <b>survival&#8209;gated</b> control, where the planner can discover high&#8209;return behavior that better TD
+      targets and actor distillation then amplify. Sparse or heavily&#8209;staged tasks may need exploration or
+      hierarchy beyond our changes, even where TAR improves.
+    </p>
+    <div class="columns is-multiline taxonomy-cards">
+      <div class="column is-3">
+        <div class="tax-card tax-inscope">
+          <div class="tax-flag">In&#8209;regime</div>
+          <h4 class="tax-title">Survival&#8209;gated locomotion</h4>
+          <p class="tax-rule">stability/survival &times; task progress</p>
+          <p class="tax-tasks"><code>walk</code> <code>run</code> <code>stand</code> <code>crawl</code> <code>hurdle</code> <code>stair</code> <code>slide</code> <code>pole</code> <code>balance&#8209;hard</code> <code>balance&#8209;simple</code></p>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="tax-card">
+          <div class="tax-flag tax-flag-mid">Partial&#8209;credit</div>
+          <h4 class="tax-title">Goal&#8209;pose / staged control</h4>
+          <p class="tax-rule">several shaped components; easy subgoals give partial return</p>
+          <p class="tax-tasks"><code>sit&#8209;simple</code> <code>sit&#8209;hard</code> <code>door</code> <code>bookshelf&#8209;simple</code> <code>bookshelf&#8209;hard</code> <code>window</code></p>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="tax-card">
+          <div class="tax-flag tax-flag-out">Out&#8209;of&#8209;scope</div>
+          <h4 class="tax-title">Sparse / penalty&#8209;shaped</h4>
+          <p class="tax-rule">distance penalty or sparse success bonus; long&#8209;horizon navigation</p>
+          <p class="tax-tasks"><code>maze</code> <code>truck</code></p>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="tax-card">
+          <div class="tax-flag tax-flag-mix">Mixed</div>
+          <h4 class="tax-title">Mixed whole&#8209;body manipulation</h4>
+          <p class="tax-rule">stability/progress combined with object&#8209;specific shaped rewards</p>
+          <p class="tax-tasks"><code>basketball</code></p>
+        </div>
+      </div>
+    </div>
+    <p class="caption has-text-centered">Grouping describes the dominant failure mode relevant to our method, not a formal benchmark property. (Appendix: HumanoidBench task taxonomy.)</p>
+  </div>
+</section>
+
+<!-- ============================ RESULTS ============================ -->
+<section class="section results-section" id="results">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+    <p class="section-lead has-text-centered">
+      Total Average Return (TAR), mean&plusmn;std over seeds, each seed scored by its final&#8209;five&#8209;evaluation mean.
+      Our method is reported at 3M environment steps. <span class="has-text-grey">Click a column header to sort.</span>
+    </p>
+
+    <!-- Interactive final-performance chart -->
+    <div class="chart-card">
+      <div class="chart-controls">
+        <div class="chart-title-row">
+          <h4 class="chart-title">Final performance by task</h4>
+          <div class="select is-rounded">
+            <select id="task-select"></select>
+          </div>
+        </div>
+        <p class="chart-help">Bars show mean&plusmn;std TAR per method; the dashed line is the official HumanoidBench success threshold.</p>
+      </div>
+      <div id="bar-chart" class="chart-mount"></div>
+      <div id="bar-legend" class="chart-legend"></div>
+    </div>
+
+    <!-- Sortable Table 1 -->
+    <div class="table-wrap">
+      <table class="results-table" id="table1">
+        <thead>
+          <tr>
+            <th data-sort="task" class="sortable">Task <i class="fas fa-sort"></i></th>
+            <th data-sort="dreamerv3" class="sortable num">DreamerV3 <i class="fas fa-sort"></i></th>
+            <th data-sort="tdmpc2" class="sortable num">TD&#8209;MPC2 <i class="fas fa-sort"></i></th>
+            <th data-sort="bmpc" class="sortable num">BMPC <i class="fas fa-sort"></i></th>
+            <th data-sort="boom" class="sortable num">BOOM <i class="fas fa-sort"></i></th>
+            <th data-sort="tdmpc2c" class="sortable num">TD&#8209;M(PC)<sup>2</sup> <i class="fas fa-sort"></i></th>
+            <th data-sort="ours" class="sortable num ours-col">Ours <i class="fas fa-sort"></i></th>
+            <th data-sort="target" class="sortable num">Target <i class="fas fa-sort"></i></th>
+          </tr>
+        </thead>
+        <tbody><!-- rows injected by app.js --></tbody>
+      </table>
+      <p class="caption">
+        <b>Bold</b> = best, <u>underline</u> = second best. <sup>*</sup> plot&#8209;digitized TD&#8209;M(PC)<sup>2</sup>;
+        <sup>&Dagger;</sup> average over only the subset of tasks a method reports. <code>n/a</code> = not reported.
+      </p>
+    </div>
+
+    <!-- Interactive per-task learning-curve explorer -->
+    <h4 class="chart-title has-text-centered mt-6">Per&#8209;task learning curves</h4>
+    <p class="section-lead has-text-centered">
+      Every task, every method: mean over seeds with &plusmn;1 std bands. <span style="color:#c44e52;font-weight:700">Ours</span> in red;
+      TD&#8209;M(PC)<sup>2</sup> is the dotted plot&#8209;digitized line. <span class="has-text-grey">Hover a panel for values; switch suites below.</span>
+    </p>
+    <div class="tabs is-centered is-toggle is-rounded curve-tabs" id="curve-tabs">
+      <ul>
+        <li class="is-active" data-suite="loco"><a>H&#8209;Bench Locomotion</a></li>
+        <li data-suite="wbm"><a>Whole&#8209;Body Manipulation</a></li>
+        <li data-suite="dmc"><a>DMControl</a></li>
+      </ul>
+    </div>
+    <div id="curve-legend" class="chart-legend"></div>
+    <div id="curve-grid" class="curve-grid"></div>
+  </div>
+</section>
+
+<!-- ============================ MATCHED BUDGET ============================ -->
+<section class="section matched-section" id="matched">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Is it just more training?</h2>
+    <p class="section-lead has-text-centered">
+      Our method is reported at 3M steps while published baselines use their original budgets (2M for TD&#8209;MPC2 /
+      BMPC / BOOM). To rule out &ldquo;the extra 1M steps did it,&rdquo; we re&#8209;ran <b>vanilla TD&#8209;M(PC)<sup>2</sup>
+      at the same &le;3M budget</b> (<i>base3M</i>) on eight representative locomotion tasks, under our exact protocol.
+    </p>
+
+    <div class="columns is-multiline is-centered matched-callouts">
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num stat-num-muted">+12</div>
+          <div class="stat-label">TAR the baseline gains from <br><span class="stat-sub">the extra 1M steps (avg over 8 tasks)</span></div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num">+102</div>
+          <div class="stat-label">TAR our method adds at the<br><span class="stat-sub"><b>same</b> &le;3M budget (Ours &minus; base3M)</span></div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num">+289</div>
+          <div class="stat-label">matched&#8209;budget gain on the value&#8209;cliff tasks<br><span class="stat-sub"><code>balance&#8209;hard</code> +289 &middot; <code>balance&#8209;simple</code> +166</span></div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="stat-card">
+          <div class="stat-num stat-num-muted stat-num-text">non&#8209;monotonic</div>
+          <div class="stat-label">longer baseline training even hurts<br><span class="stat-sub"><code>stand</code> &minus;24 &middot; <code>stair</code> &minus;92 &middot; <code>maze</code> &minus;8</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="results-table" id="matched-table">
+        <thead>
+          <tr>
+            <th data-mkey="task" class="sortable">Task <i class="fas fa-sort"></i></th>
+            <th data-mkey="pub" class="sortable num">Published TD&#8209;M(PC)<sup>2</sup><sup>*</sup> <i class="fas fa-sort"></i></th>
+            <th data-mkey="base" class="sortable num">base3M <i class="fas fa-sort"></i></th>
+            <th data-mkey="ours" class="sortable num ours-col">Ours (3M) <i class="fas fa-sort"></i></th>
+            <th data-mkey="dours" class="sortable num">&Delta; Ours&minus;base3M <i class="fas fa-sort"></i></th>
+            <th data-mkey="d3m" class="sortable num">&Delta; base3M&minus;Pub. <i class="fas fa-sort"></i></th>
+            <th data-mkey="target" class="sortable num">Target <i class="fas fa-sort"></i></th>
+          </tr>
+        </thead>
+        <tbody><!-- rows injected by app.js --></tbody>
+      </table>
+      <p class="caption">
+        Mean&plusmn;std over <i>n</i>=3 seeds, each scored by its final&#8209;five&#8209;evaluation TAR at &le;3M.
+        <sup>*</sup>plot&#8209;digitized from the original 2M TD&#8209;M(PC)<sup>2</sup> curves.
+        <b>&Delta; Ours&minus;base3M</b> is the matched&#8209;budget gain; <b>&Delta; base3M&minus;Pub.</b> is what the extra 1M steps buy the baseline.
+        The matched&#8209;budget gains concentrate on the <b>value&#8209;cliff</b> tasks (<code>balance&#8209;hard</code>, <code>balance&#8209;simple</code>);
+        on tasks the baseline already handles (<code>stand</code>, <code>slide</code>, <code>maze</code>, <code>pole</code>) the two are close. We therefore
+        lead with the value&#8209;cliff wins rather than a blanket locomotion&#8209;average claim.
+      </p>
+    </div>
+
+    <figure class="fig-wide mt-5">
+      <img src="./static/figures/fig_matched_excels-1.png" alt="Matched-budget 3M training curves: Ours vs vanilla TD-M(PC)2 rerun"
+           onerror="this.closest('figure').classList.add('img-missing')">
+      <div class="img-fallback"><i class="fas fa-image"></i><span>fig_matched_excels-1.png</span></div>
+      <figcaption>
+        Training&#8209;time TAR for <span style="color:#e23b2e;font-weight:700">Ours</span> and the
+        <span style="color:#6b7280;font-weight:700">base3M</span> vanilla rerun under the same &le;3M protocol
+        (mean&plusmn;std over 3 seeds; dotted = HumanoidBench success thresholds). The vanilla rerun plateaus on the
+        balance tasks and tracks or dips below its published readout elsewhere, confirming the gains are not a budget artifact.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ TASK GALLERY ============================ -->
+<section class="section gallery-section">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Policy Rollouts</h2>
+    <p class="section-lead has-text-centered">Evaluation rollouts of our method across HumanoidBench locomotion and whole&#8209;body manipulation.</p>
+  </div>
+  <!-- Auto-scrolling strip of evaluation rollouts (our method). -->
+  <div class="video-carousel" id="rollout-strip">
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>walk</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/walk_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">walk</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>run</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/run_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">run</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>stand</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/stand_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">stand</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>crawl</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/crawl_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">crawl</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>hurdle</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/hurdle_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">hurdle</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>pole</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/pole_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">pole</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>slide</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/slide_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">slide</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>stair</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/stair_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">stair</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>balance_simple</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/balance_simple_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">balance_simple</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>balance_hard</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/balance_hard_ours_succ_video2.mp4" type="video/mp4"></video><div class="strip-cap">balance_hard</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>sit_simple</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/sit_simple_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">sit_simple</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>sit_hard</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/sit_hard_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">sit_hard</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>maze</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/maze_ours_video1.mp4" type="video/mp4"></video><div class="strip-cap">maze</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>window</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/window_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">window</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>basketball</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/basketball_ours_succ_video1.mp4" type="video/mp4"></video><div class="strip-cap">basketball</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>bookshelf_simple</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/bookshelf_simple_ours_video1.mp4" type="video/mp4"></video><div class="strip-cap">bookshelf_simple</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>bookshelf_hard</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/bookshelf_hard_ours_video1.mp4" type="video/mp4"></video><div class="strip-cap">bookshelf_hard</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>door</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/door_ours_video1.mp4" type="video/mp4"></video><div class="strip-cap">door</div></div>
+    <div class="strip-item" data-placeholder><div class="strip-ph"><span>truck</span></div><video class="strip-video" playsinline autoplay loop muted><source src="./static/data/videos/truck_ours_video1.mp4" type="video/mp4"></video><div class="strip-cap">truck</div></div>
+  </div>
+</section>
+
+<!-- ============================ ABLATIONS ============================ -->
+<section class="section ablations-section" id="ablations">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Ablations: each gain matches the task's failure mode</h2>
+    <p class="section-lead has-text-centered">
+      We ablate components on two hard locomotion tasks with different failure modes:
+      <code>balance_hard</code> (long&#8209;horizon credit assignment) and <code>hurdle</code> (contact&#8209;rich planning).
+    </p>
+
+    <div class="chart-card">
+      <div class="tabs is-centered is-toggle is-rounded ablation-tabs" id="ablation-tabs">
+        <ul>
+          <li class="is-active" data-abl="balance_hard"><a><code>balance_hard</code> &middot; multi&#8209;step TD</a></li>
+          <li data-abl="hurdle"><a><code>hurdle</code> &middot; pessimism + distillation</a></li>
+        </ul>
+      </div>
+      <div id="ablation-chart" class="chart-mount"></div>
+      <div id="ablation-legend" class="chart-legend"></div>
+      <p id="ablation-caption" class="chart-help has-text-centered"></p>
+    </div>
+
+    <!-- Leave-one-out attribution -->
+    <h2 class="title is-3 has-text-centered mt-6">Leave&#8209;one&#8209;out: which removal hurts most?</h2>
+    <p class="section-lead has-text-centered">
+      Starting from the full method, we remove <b>one</b> component at a time (keeping the other two) and measure the
+      drop &Delta;<sub>X</sub> = Full &minus; (w/o&nbsp;<i>X</i>). A bigger drop means that component matters more for
+      that task, and the two tasks rank the components differently.
+    </p>
+
+    <div class="table-wrap">
+      <table class="results-table loo-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Arm</th>
+            <th colspan="2" class="num group-col"><code>balance&#8209;hard</code></th>
+            <th colspan="2" class="num group-col"><code>hurdle</code></th>
+          </tr>
+          <tr>
+            <th class="num">TAR</th><th class="num">Succ.</th>
+            <th class="num">TAR</th><th class="num">Succ.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="loo-base">
+            <td>TD&#8209;M(PC)<sup>2</sup> (base3M)</td>
+            <td class="num">98 &plusmn; 18</td><td class="num">0.00</td>
+            <td class="num">199 &plusmn; 13</td><td class="num">0.00</td>
+          </tr>
+          <tr>
+            <td>&minus; multi&#8209;step TD <span class="arm-tag">noMTD</span></td>
+            <td class="num">132 &plusmn; 78</td><td class="num">0.00</td>
+            <td class="num cell-best">530 &plusmn; 275</td><td class="num cell-best">0.47</td>
+          </tr>
+          <tr>
+            <td>&minus; adaptive terminal <span class="arm-tag">noATE</span></td>
+            <td class="num">206 &plusmn; 63</td><td class="num">0.00</td>
+            <td class="num">300 &plusmn; 26</td><td class="num">0.00</td>
+          </tr>
+          <tr>
+            <td>&minus; distillation <span class="arm-tag">noDistill</span></td>
+            <td class="num cell-second">272 &plusmn; 221</td><td class="num cell-second">0.15</td>
+            <td class="num">232 &plusmn; 61</td><td class="num">0.00</td>
+          </tr>
+          <tr class="ours-row">
+            <td><b>Ours (full)</b></td>
+            <td class="num cell-best"><b>387 &plusmn; 255</b></td><td class="num cell-best"><b>0.19</b></td>
+            <td class="num cell-second">466 &plusmn; 200</td><td class="num cell-second">0.19</td>
+          </tr>
+          <tr class="loo-drop-head"><td colspan="5">Component drop &nbsp;&Delta;<sub>X</sub> = Full &minus; w/o&nbsp;<i>X</i></td></tr>
+          <tr class="loo-drop">
+            <td>&Delta;<sub>MTD</sub> (multi&#8209;step TD)</td>
+            <td colspan="2" class="num delta-pos">+255</td>
+            <td colspan="2" class="num delta-neg">&minus;64</td>
+          </tr>
+          <tr class="loo-drop">
+            <td>&Delta;<sub>ATE</sub> (adaptive terminal)</td>
+            <td colspan="2" class="num delta-pos">+181</td>
+            <td colspan="2" class="num delta-pos">+166</td>
+          </tr>
+          <tr class="loo-drop">
+            <td>&Delta;<sub>Distill</sub> (distillation)</td>
+            <td colspan="2" class="num delta-pos">+115</td>
+            <td colspan="2" class="num delta-pos">+234</td>
+          </tr>
+          <tr class="loo-drop loo-total">
+            <td>&Delta;<sub>total</sub> (Full &minus; base3M)</td>
+            <td colspan="2" class="num delta-pos"><b>+289</b></td>
+            <td colspan="2" class="num delta-pos"><b>+267</b></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="caption">
+        TAR is mean&plusmn;std of final&#8209;five&#8209;evaluation return (<i>n</i>=3 seeds); Succ. is the final&#8209;five mean of
+        <code>eval/episode_success</code>. <b>Bold</b> = best, <u>underline</u> = second best per column.
+        On <code>balance&#8209;hard</code> the TD target dominates (&Delta;<sub>MTD</sub>=+255); on <code>hurdle</code>,
+        distillation and the adaptive terminal do (&Delta;<sub>Distill</sub>=+234, &Delta;<sub>ATE</sub>=+166).
+        <code>hurdle</code> is highly seed&#8209;sensitive: the <span class="arm-tag">noMTD</span> arm scores higher here
+        but with far larger variance, which is why we scope the <code>hurdle</code>/<code>balance&#8209;hard</code> claims carefully.
+      </p>
+    </div>
+
+    <div class="chart-card mt-5">
+      <h4 class="chart-title has-text-centered">Component drop by task</h4>
+      <p class="chart-help has-text-centered">Each task&rsquo;s bottleneck names a different component. Bars are the TAR drop when a single component is removed.</p>
+      <div id="loo-drop-chart" class="chart-mount"></div>
+      <div id="loo-drop-legend" class="chart-legend"></div>
+    </div>
+
+    <div class="columns is-centered mt-5">
+      <div class="column is-half">
+        <figure class="fig-thumb">
+          <img class="zoomable" src="./static/figures/fig_ablation_balance_hard-1.png" alt="Leave-one-out mechanism on balance_hard"
+               onerror="this.closest('figure').classList.add('img-missing')">
+          <div class="img-fallback"><i class="fas fa-image"></i><span>fig_ablation_balance_hard-1.png</span></div>
+          <figcaption><b>Mechanism on <code>balance&#8209;hard</code>.</b> Removing multi&#8209;step TD keeps the agent near the
+          vanilla regime. The full method separates high&#8209; from low&#8209;value outcomes (rising TD&#8209;target std and Q&#8209;value)
+          and activates distillation only after high&#8209;return trajectories appear.</figcaption>
+        </figure>
+      </div>
+      <div class="column is-half">
+        <figure class="fig-thumb">
+          <img class="zoomable" src="./static/figures/fig_ablation_hurdle-1.png" alt="Leave-one-out component contributions on hurdle"
+               onerror="this.closest('figure').classList.add('img-missing')">
+          <div class="img-fallback"><i class="fas fa-image"></i><span>fig_ablation_hurdle-1.png</span></div>
+          <figcaption><b>Components on <code>hurdle</code>.</b> Removing distillation produces the largest drop, and removing
+          the adaptive terminal also lowers return and success; the distillation&#8209;weight panel is flat at zero for
+          <span class="arm-tag">noDistill</span>.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Warmup sensitivity -->
+    <h2 class="title is-3 has-text-centered mt-6">Headroom: a single schedule knob</h2>
+    <p class="section-lead has-text-centered">
+      Return&#8209;weighted distillation is annealed in after a warmup of <code>si_warmup_steps</code> optimizer steps
+      (default 200k). Lengthening it to 750k (changing nothing else) recovers performance on tasks where the
+      default schedule lagged, lifting the 6&#8209;task average by <b>+46 TAR</b>. We keep 200k as the default; this is a
+      sensitivity check, not a re&#8209;tuned result.
+    </p>
+    <div class="table-wrap">
+      <table class="results-table warmup-table">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th class="num">Ours (200k)</th>
+            <th class="num">Ours (750k)</th>
+            <th class="num">&Delta;<sub>warmup</sub></th>
+            <th class="num">Best external</th>
+            <th class="num">&Delta;<sub>ext</sub></th>
+            <th class="num">Succ. 200k/750k</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>crawl</code></td><td class="num">855 &plusmn; 31</td><td class="num cell-best">971 &plusmn; 6</td><td class="num delta-pos">+116</td><td class="num">943 &plusmn; 25 <span class="ext-tag">BMPC</span></td><td class="num delta-pos">+28</td><td class="num">0.99 / 0.99</td></tr>
+          <tr><td><code>sit&#8209;hard</code></td><td class="num">635 &plusmn; 233</td><td class="num">805 &plusmn; 104</td><td class="num delta-pos">+170</td><td class="num">810 &plusmn; 146 <span class="ext-tag">TD&#8209;M(PC)²*</span></td><td class="num delta-neg">&minus;5</td><td class="num">0.52 / 0.84</td></tr>
+          <tr><td><code>balance&#8209;simple</code></td><td class="num">765 &plusmn; 176</td><td class="num">809 &plusmn; 32</td><td class="num delta-pos">+44</td><td class="num">673 &plusmn; 124 <span class="ext-tag">BMPC</span></td><td class="num delta-pos">+136</td><td class="num">0.63 / 0.65</td></tr>
+          <tr><td><code>walk</code></td><td class="num">911 &plusmn; 7</td><td class="num">910 &plusmn; 1</td><td class="num delta-neg">&minus;1</td><td class="num">928 &plusmn; 16 <span class="ext-tag">BOOM</span></td><td class="num delta-neg">&minus;18</td><td class="num">0.99 / 0.99</td></tr>
+          <tr><td><code>maze</code></td><td class="num">353 &plusmn; 3</td><td class="num">349 &plusmn; 8</td><td class="num delta-neg">&minus;4</td><td class="num">355 &plusmn; 4 <span class="ext-tag">TD&#8209;M(PC)²*</span></td><td class="num delta-neg">&minus;6</td><td class="num">0.00 / 0.00</td></tr>
+          <tr><td><code>hurdle</code></td><td class="num">466 &plusmn; 200</td><td class="num">414 &plusmn; 127</td><td class="num delta-neg">&minus;52</td><td class="num">331 &plusmn; 45 <span class="ext-tag">BOOM</span></td><td class="num delta-pos">+83</td><td class="num">0.19 / 0.09</td></tr>
+          <tr class="avg-row"><td>Avg.</td><td class="num">664</td><td class="num">710</td><td class="num delta-pos">+46</td><td class="num">673</td><td class="num delta-pos">+37</td><td class="num">n/a</td></tr>
+        </tbody>
+      </table>
+      <p class="caption">
+        <i>n</i>=3 seeds, final&#8209;five&#8209;evaluation TAR at &le;3M. &Delta;<sub>warmup</sub> = 750k &minus; 200k;
+        &Delta;<sub>ext</sub> = 750k &minus; best external baseline. With the longer warmup, <code>crawl</code> overtakes the
+        best external baseline and <code>sit&#8209;hard</code> nearly matches it (success 0.52&rarr;0.84). The 200k column repeats
+        the main table.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ REAL ROBOT ============================ -->
+<section class="section robot-section" id="robot">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Rhythmic Insertion: Zero&#8209;Shot Sim&rarr;Real</h2>
+    <p class="section-lead has-text-centered">
+      A contact&#8209;rich <b>wrench&#8209;into&#8209;nut</b> task: a 7&#8209;DoF Kuka iiwa14 with a Robotiq 3&#8209;Finger gripper must
+      drive a grasped wrench onto a nut threaded on an upright bolt. Unlike peg&#8209;in&#8209;hole, <b>the nut spins freely
+      under contact</b>: the target keeps shifting, so the policy must <b>re&#8209;align every step</b> instead of
+      running a fixed search.
+    </p>
+
+    <div class="proto-card mb-5">
+      <p>
+        We learn the task entirely in <b>IsaacGym</b> (500K steps) from an <b>object&#8209;centric</b> state (the
+        wrench's current and goal pose in the nut's frame) with an <code>SE(3)</code> displacement action. We drop the
+        distance curriculum and signed&#8209;distance reward of the original task for a simple shaped reward
+        <code>r = &alpha;&middot;e<sup>&minus;d</sup> + &beta;&middot;&#x1D7D9;[d&le;&epsilon;]</code>, isolating the
+        <i>learning algorithm</i> from reward engineering. A trial succeeds when the tool reaches
+        <code>&epsilon;&approx;5&nbsp;mm</code> of the nut center within 128 steps.
+        <b>Training uses wrench size&nbsp;5 only;</b> on hardware we additionally test the <b>unseen sizes&nbsp;3 and&nbsp;1</b>
+        to probe generalization.
+      </p>
+    </div>
+
+    <!-- ===================== IN SIMULATION ===================== -->
+    <h3 class="subhead"><i class="fas fa-cubes"></i> In simulation <span class="subhead-sub">512&#8209;scene eval &middot; wrench size 5</span></h3>
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr><th>Regime &middot; metric</th><th class="num ours-col">Ours</th><th class="num">Vanilla TD&#8209;M(PC)<sup>2</sup></th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-head"><td colspan="3">MPC planner: the full method, planning at test time</td></tr>
+              <tr><td>last&#8209;step success rate <span class="cell-sub">(n=64)</span></td><td class="num ours-cell">92.2 <span class="cell-sub">[85.6, 98.8]</span></td><td class="num">70.3 <span class="cell-sub">[59.1, 81.5]</span></td></tr>
+              <tr><td>mean reward <span class="cell-sub">(n=64)</span></td><td class="num ours-cell">205.4</td><td class="num">178.9</td></tr>
+              <tr class="group-head"><td colspan="3">Policy&#8209;prior: distilled actor alone, no planning</td></tr>
+              <tr><td>last&#8209;step success rate <span class="cell-sub">(n=512)</span></td><td class="num ours-cell">77.7</td><td class="num">70.1</td></tr>
+              <tr><td>ever&#8209;inserted <span class="cell-sub">(n=512)</span></td><td class="num ours-cell">79.5</td><td class="num">79.9</td></tr>
+              <tr><td>engagement <span class="cell-sub">(n=512)</span></td><td class="num ours-cell">79.3</td><td class="num">74.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="caption">
+          Success rate (%) over held&#8209;out scenes. <b>MPC planner</b> is the full method planning at test time;
+          <b>policy&#8209;prior</b> deploys the distilled actor alone (no planning). With planning, our method inserts on
+          <b>92.2%</b> of trials vs. <b>70.3%</b> for the vanilla TD&#8209;M(PC)<sup>2</sup> backbone, a
+          <b class="delta-pos">+21.9&nbsp;pt</b> gap; brackets are 95% Wilson intervals.
+        </p>
+
+        <p class="caption">Side&#8209;by&#8209;side clips for these scenes are shown in the <a href="#real-demos">insertion demos at the top of the page</a>:
+          our method inserts on all five sampled scenes; the vanilla baseline times out on three.</p>
+      </div>
+    </div>
+
+    <!-- ===================== ON HARDWARE ===================== -->
+    <h3 class="subhead mt-6"><i class="fas fa-robot"></i> On hardware <span class="subhead-sub">zero&#8209;shot &middot; FoundationPose 6D tracking</span></h3>
+    <div class="columns is-vcentered">
+      <div class="column is-5">
+        <figure class="fig-thumb">
+          <!-- DROP-IN setup photo (Fig. 2): static/images/robot_setup.jpg -->
+          <img id="robot-setup-img" src="./static/images/robot_setup.jpg" alt="Robot setup"
+               onerror="this.closest('figure').classList.add('img-missing')">
+          <div class="img-fallback"><i class="fas fa-image"></i><span>static/images/robot_setup.jpg &middot; setup photo (paper Fig. 2)</span></div>
+          <figcaption>Kuka iiwa14 + Robotiq 3&#8209;Finger gripper. Deployed with a force&#8209;feedback controller and
+          <b>no real&#8209;world fine&#8209;tuning</b>.</figcaption>
+        </figure>
+      </div>
+      <div class="column is-7">
+        <div class="table-wrap">
+          <table class="results-table robot-table">
+            <thead>
+              <tr><th>Method</th><th class="num">Size</th><th class="num">N</th><th class="num">SR (%)</th><th class="num">Pos. (mm)</th><th class="num">Rot. (&deg;)</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="6">In&#8209;distribution</td></tr>
+              <tr class="ours-row"><td>Ours</td><td class="num">5</td><td class="num">30</td><td class="num"><b>74.2</b></td><td class="num">9.86</td><td class="num">6.14</td></tr>
+              <tr><td>TD&#8209;M(PC)<sup>2</sup></td><td class="num">5</td><td class="num">30</td><td class="num">61.3</td><td class="num">11.08</td><td class="num">7.28</td></tr>
+              <tr class="group-row"><td colspan="6">Generalization (unseen sizes)</td></tr>
+              <tr class="ours-row"><td>Ours</td><td class="num">3</td><td class="num">15</td><td class="num"><b>80.0</b></td><td class="num">11.57</td><td class="num">4.64</td></tr>
+              <tr class="ours-row"><td>Ours</td><td class="num">1</td><td class="num">15</td><td class="num"><b>33.3</b></td><td class="num">9.75</td><td class="num">6.91</td></tr>
+              <tr class="ours-row strong-sep"><td>Ours</td><td class="num">Avg</td><td class="num">30</td><td class="num"><b>56.7</b></td><td class="num">11.03</td><td class="num">5.31</td></tr>
+              <tr><td>TD&#8209;M(PC)<sup>2</sup></td><td class="num">3</td><td class="num">15</td><td class="num">73.3</td><td class="num">10.60</td><td class="num">3.57</td></tr>
+              <tr><td>TD&#8209;M(PC)<sup>2</sup></td><td class="num">1</td><td class="num">15</td><td class="num">20.0</td><td class="num">7.89</td><td class="num">3.69</td></tr>
+              <tr><td>TD&#8209;M(PC)<sup>2</sup></td><td class="num">Avg</td><td class="num">30</td><td class="num">46.7</td><td class="num">10.02</td><td class="num">3.60</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="caption">
+          Zero&#8209;shot transfer, no real&#8209;world fine&#8209;tuning. SR is over all episodes with 95% Wilson intervals.
+          Our method leads on the in&#8209;distribution size&nbsp;5 (<b>74.2%</b> vs 61.3%); the ordering holds on the
+          <b>unseen</b> sizes&nbsp;3 and&nbsp;1 (widest on the hardest size&nbsp;1), so the simulation advantage
+          carries to a substantially different physical platform. Intervals overlap at these modest sample sizes.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DETAILS / PROTOCOL ============================ -->
+<section class="section details-section" id="details">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Protocol &amp; implementation</h2>
+    <p class="section-lead has-text-centered">
+      Every number on this page follows one protocol, and every change is a small toggle on the
+      TD&#8209;M(PC)<sup>2</sup> backbone. Details below for reproducibility.
+    </p>
+
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <div class="proto-card">
+          <h4 class="proto-title"><i class="fas fa-ruler-combined"></i>&nbsp; Evaluation protocol</h4>
+          <ul class="proto-list">
+            <li>Evaluate every <b>50k</b> environment steps.</li>
+            <li>Each eval = <b>10</b> full episodes, planner in deterministic mode (MPPI action&#8209;mean).</li>
+            <li>A seed&rsquo;s score = mean of its <b>final five</b> evaluations (at most 3M steps).</li>
+            <li>Tables report <b>mean&plusmn;std over seeds</b> of those per&#8209;seed scores.</li>
+            <li><b>Success</b> = HumanoidBench&rsquo;s own <code>eval/episode_success</code> flag, not a post&#8209;hoc return threshold. <code>0.47</code> success means 47% of final&#8209;five eval episodes ended with the flag set.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-7">
+        <div class="proto-card">
+          <h4 class="proto-title"><i class="fas fa-sliders"></i>&nbsp; Hyperparameters of the three changes</h4>
+          <table class="results-table hp-table">
+            <thead><tr><th>Component</th><th>Config name</th><th class="num">Value</th></tr></thead>
+            <tbody>
+              <tr class="group-head"><td colspan="3">Multi&#8209;step TD targets (MTD)</td></tr>
+              <tr><td>target horizon <i>n</i></td><td><code>multistep_td_n</code></td><td class="num">3</td></tr>
+              <tr class="group-head"><td colspan="3">Uncertainty&#8209;aware terminal (ATE)</td></tr>
+              <tr><td>max penalty &lambda;<sub>max</sub></td><td><code>lambda_uncertainty_max</code></td><td class="num">0.5</td></tr>
+              <tr><td>disagreement EMA rate (1&minus;&alpha;)</td><td><code>uncertainty_ema_tau</code></td><td class="num">0.01</td></tr>
+              <tr><td>target&#8209;Q / actor&#8209;Q aggregation</td><td><code>td_target_q_mode</code></td><td class="num">random&#8209;min / &#8209;avg</td></tr>
+              <tr class="group-head"><td colspan="3">Return&#8209;weighted distillation</td></tr>
+              <tr><td>loss coeff. &lambda;<sub>D</sub> / weight cap <i>w</i><sub>max</sub></td><td><code>si_coef</code> / <code>si_max_weight</code></td><td class="num">0.5 / 10</td></tr>
+              <tr><td>return temperature &beta;</td><td><code>si_temperature</code></td><td class="num">max(<i>G</i><sub>std</sub>,&epsilon;)</td></tr>
+              <tr><td>warmup <i>k</i><sub>warmup</sub></td><td><code>si_warmup_steps</code></td><td class="num">2&times;10<sup>5</sup></td></tr>
+              <tr class="group-head"><td colspan="3">Shared backbone (unchanged from TD&#8209;M(PC)<sup>2</sup>)</td></tr>
+              <tr><td>rollout horizon <i>H</i> / temporal weight &rho;</td><td><code>horizon</code> / <code>rho</code></td><td class="num">3 / 0.5</td></tr>
+              <tr><td>Q&#8209;ensemble size <i>M</i> / target rate &tau;</td><td><code>num_q</code> / <code>tau</code></td><td class="num">5 / 0.01</td></tr>
+              <tr><td>critic bins, support</td><td><code>num_bins</code>, <code>vmin/vmax</code></td><td class="num">101, [&minus;10, 10]</td></tr>
+            </tbody>
+          </table>
+          <p class="caption">All other agent hyperparameters are inherited unchanged from TD&#8209;M(PC)<sup>2</sup>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SCOPE / LIMITATIONS ============================ -->
+<section class="section scope-section" id="scope">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Scope &amp; honest caveats</h2>
+    <p class="section-lead has-text-centered">
+      What our diagnosis does and does not claim, reported as in the paper, so the durable wins are easy to separate
+      from the open problems.
+    </p>
+    <div class="columns is-multiline scope-cards">
+      <div class="column is-6">
+        <div class="scope-card">
+          <h4 class="scope-title"><i class="fas fa-wave-square"></i>&nbsp; Variance is signal, not noise</h4>
+          <p>On <code>balance&#8209;hard</code>/<code>hurdle</code>, multi&#8209;step TD makes the task <i>reachable but not reliably
+          solved</i>: outcomes stay <b>bimodal across seeds</b>, so the large &plusmn;std in the main table reflects genuine
+          seed&#8209;to&#8209;seed differences: some seeds escape the safe&#8209;survival regime, others don&rsquo;t.</p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="scope-card">
+          <h4 class="scope-title"><i class="fas fa-gauge-high"></i>&nbsp; TAR can under&#8209;report progress</h4>
+          <p>HumanoidBench&rsquo;s per&#8209;step <b>survival bonus</b> lets a policy accumulate return just by not falling, so high
+          TAR is not the same as task completion. Low&#8209;return baselines settle into this safe regime; our higher&#8209;variance
+          results reflect seeds that escape it. We report the benchmark&rsquo;s own success flag alongside TAR where available.</p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="scope-card">
+          <h4 class="scope-title"><i class="fas fa-compass"></i>&nbsp; No new exploration</h4>
+          <p>Our changes amplify task&#8209;completing behavior the planner <i>already</i> samples occasionally; they add no
+          exploration mechanism. On sparse&#8209; or penalty&#8209;shaped tasks where positive return is rarely sampled (e.g.
+          <code>maze</code>), distillation has nothing to amplify and the gains do not transfer.</p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="scope-card">
+          <h4 class="scope-title"><i class="fas fa-robot"></i>&nbsp; A real sim&rarr;real gap remains</h4>
+          <p>On <code>hurdle</code> we toggle the adaptive terminal and distillation <i>jointly</i>, so our evidence supports
+          their combined effect, not a clean separation. And both methods drop from simulation to hardware (friction, contact,
+          controller mismatch), though closing that gap is orthogonal to the bootstrap issues we study.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CODE & DATA ============================ -->
+<section class="section code-section" id="code">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Code &amp; Data</h2>
+    <p class="section-lead has-text-centered">We open&#8209;source our full code (including the self&#8209;contained real&#8209;robot rhythmic&#8209;insertion task) and the per&#8209;seed evaluation logs behind every plot here. <span class="has-text-grey">(Anonymized for review.)</span></p>
+
+    <div class="codeblock">
+      <div class="codeblock-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="cb-title">Quickstart</span></div>
+      <pre><code># clone the anonymized code release
+git clone https://corl26-anonymous.github.io/code.git
+cd code
+
+# install (HumanoidBench env; DMControl uses envs/environment_dmcontrol.yml)
+conda env create -f envs/environment_humanoidbench.yml
+conda activate tdmpc-square
+pip install -e . --no-deps              # HumanoidBench benchmark
+pip install -e tdmpc_square --no-deps   # our method
+
+# train our full method. Config defaults already encode
+# multi-step TD + adaptive uncertainty-aware planner + return-weighted distillation
+python -m tdmpc_square.train task=humanoid_h1hand-balance_hard-v0 seed=0 disable_wandb=true
+#   ...or via the launcher:   ./scripts/run_humanoidbench.sh h1hand-balance_hard-v0 0
+#   DMControl:                ./scripts/run_dmcontrol.sh cheetah-run 0
+
+# (optional) real-robot rhythmic-insertion task (Isaac Gym)
+bash rhythmic_insertion/download_assets.sh    # fetch meshes + reset-state pools
+#   then see rhythmic_insertion/README.md to train / run the insertion task</code></pre>
+    </div>
+
+    <div class="table-wrap mt-5">
+      <table class="results-table download-table">
+        <thead>
+          <tr><th>Resource</th><th>Contents</th><th class="num">Size</th><th>Link</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><i class="fab fa-github"></i>&nbsp;Code</td>
+            <td>Our method, the vanilla TD&#8209;M(PC)&sup2; baseline, HumanoidBench, configs &amp; launchers</td>
+            <td class="num">n/a</td>
+            <td><a href="#code" class="dl-link">clone &amp; build <i class="fas fa-arrow-up"></i></a></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-chart-line"></i>&nbsp;Eval logs</td>
+            <td>Per&#8209;seed TAR curves &amp; final&#8209;window returns for every cell of the main table, with full provenance and a paper&#8209;reproduction report (the data behind every plot here)</td>
+            <td class="num">228&nbsp;KB</td>
+            <td><a href="./static/data/eval_data.zip" class="dl-link" download>download <i class="fas fa-arrow-up-right-from-square"></i></a></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-robot"></i>&nbsp;Real&#8209;robot</td>
+            <td>Self&#8209;contained Isaac Gym wrench&#8209;into&#8209;nut (rhythmic insertion) task: <code>gym.Env</code> wrapper, training &amp; eval scripts; meshes/state&#8209;pools via <code>download_assets.sh</code></td>
+            <td class="num">n/a</td>
+            <td><a href="#code" class="dl-link">in <code>rhythmic_insertion/</code> <i class="fas fa-arrow-up"></i></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer site-footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <p class="is-size-7 has-text-grey">
+          Anonymized project page for CoRL 2026 submission. This website is licensed under a
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY&#8209;SA 4.0</a> license.
+          Template adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="./static/js/app.js"></script>
+</body>
+</html>

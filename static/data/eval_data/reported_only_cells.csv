@@ -1,0 +1,78 @@
+suite,task,method,mean,std,marker,target,provenance,per_seed
+dmcontrol,cheetah-run,DreamerV3,643,49,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,cheetah-run,TDMPC2,860.43,95.29,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,cheetah-run,BMPC,866.64,52.63,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,cartpole-swingup-sparse,DreamerV3,624.32,232.1,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,cartpole-swingup-sparse,TDMPC2,826.42,45.68,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,cartpole-swingup-sparse,BMPC,845.76,4.68,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,dog-stand,DreamerV3,41.43,8.7,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,dog-stand,TDMPC2,522.84,420.7,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,dog-stand,BMPC,940.88,32.06,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,dog-stand,BOOM,982.3,7.0,,,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+dmcontrol,dog-stand,TDMsq,832.35,99.19,*,,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+dmcontrol,dog-trot,DreamerV3,10.95,2.79,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,dog-trot,TDMPC2,393.82,183.83,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,dog-trot,BMPC,903.06,14.34,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,dog-trot,BOOM,923.0,7.8,,,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+dmcontrol,dog-trot,TDMsq,899.06,38.55,*,,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+dmcontrol,finger-turn-hard,DreamerV3,876.88,29.12,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,finger-turn-hard,TDMPC2,929.79,75.72,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,finger-turn-hard,BMPC,938.85,72.85,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,hopper-stand,DreamerV3,699.3,181.46,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,hopper-stand,TDMPC2,929.02,34.87,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,hopper-stand,BMPC,940.61,16.49,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,humanoid-stand,DreamerV3,5.3,0.69,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,humanoid-stand,TDMPC2,636.7,70.72,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,humanoid-stand,BMPC,914.88,22.57,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,humanoid-stand,BOOM,920.0,15.4,,,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+dmcontrol,humanoid-stand,TDMsq,929.49,15.01,*,,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+dmcontrol,humanoid-walk,DreamerV3,1.52,0.23,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,humanoid-walk,TDMPC2,643.22,95.67,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,humanoid-walk,BMPC,898.58,25.67,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,humanoid-walk,BOOM,920.5,9.9,,,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+dmcontrol,humanoid-walk,TDMsq,866.67,62.7,*,,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+dmcontrol,quadruped-walk,DreamerV3,158.12,49.25,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,quadruped-walk,TDMPC2,962.67,8.8,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,quadruped-walk,BMPC,939.92,26.24,,,"reported (BMPC paper, Wang et al. 2025)",False
+dmcontrol,walker-stand,DreamerV3,937.01,11.33,,,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+dmcontrol,walker-stand,TDMPC2,990.79,3.12,,,"reported (TD-MPC2 paper, Hansen et al. 2024)",False
+dmcontrol,walker-stand,BMPC,990.41,5.33,,,"reported (BMPC paper, Wang et al. 2025)",False
+humanoidbench_wbm,basketball,DreamerV3,23.9,0.9,,1200,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_wbm,bookshelf_simple,DreamerV3,375.8,24.9,,2000,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_wbm,bookshelf_hard,DreamerV3,177.9,21.2,,2000,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_wbm,door,DreamerV3,70.4,36.5,,600,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_wbm,truck,DreamerV3,828.8,65.2,,3000,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_wbm,window,DreamerV3,31.4,9.6,,650,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,walk,DreamerV3,161.3,44.5,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,walk,BOOM,927.7,16.2,,700,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,walk,TDMsq,894.46,62.03,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,stand,DreamerV3,220.3,73.5,,800,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,stand,BOOM,915.2,25.9,,800,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,stand,TDMsq,951.01,3.54,*,800,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,run,DreamerV3,55.8,10.5,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,run,BOOM,595.6,62.6,,700,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,run,TDMsq,786.38,92.18,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,crawl,DreamerV3,504.0,90.3,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,crawl,TDMsq,840.48,57.02,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,maze,DreamerV3,116.5,5.9,,1200,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,maze,TDMsq,355.22,4.4,*,1200,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,stair,DreamerV3,43.0,11.4,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,stair,TDMsq,479.04,207.45,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,slide,DreamerV3,19.0,5.9,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,slide,BOOM,858.0,42.5,,700,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,slide,TDMsq,867.51,67.76,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,sit_simple,DreamerV3,268.4,26.1,,750,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,sit_simple,BOOM,882.1,43.8,,750,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,sit_simple,TDMsq,905.76,47.12,*,750,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,sit_hard,DreamerV3,151.6,19.5,,750,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,sit_hard,TDMsq,810.01,146.43,*,750,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,pole,DreamerV3,122.5,33.5,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,pole,BOOM,879.0,32.7,,700,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,pole,TDMsq,804.55,114.79,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,balance_simple,DreamerV3,14.5,0.8,,800,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,balance_simple,TDMsq,511.53,151.2,*,800,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,hurdle,DreamerV3,12.9,2.7,,700,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,hurdle,BOOM,331.1,45.0,,700,"reported / plot-digitized (BOOM paper, Zhan et al. 2026)",False
+humanoidbench_loco,hurdle,TDMsq,192.23,31.58,*,700,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False
+humanoidbench_loco,balance_hard,DreamerV3,16.8,3.5,,800,"reported (BMPC paper, Wang et al. 2025; and HumanoidBench official results)",False
+humanoidbench_loco,balance_hard,TDMsq,81.26,4.65,*,800,plot-digitized from TD-M(PC)^2 published curves (Lin et al. 2025),False

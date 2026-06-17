@@ -1,0 +1,238 @@
+tier,suite,task,method,seed,run_id,last5_mean,max_step_M,budget_M,below_budget,curve,source
+our_runs,dmcontrol,cheetah-run,Ours,0,fcdfm7c2,866.4321,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,cheetah-run,Ours,1,s33gm4jx,899.0174,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,cheetah-run,Ours,2,jek2zr72,914.6158,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,cartpole-swingup-sparse,Ours,0,b2n71jlz,796.06,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,cartpole-swingup-sparse,Ours,1,os3esyaz,747.02,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,cartpole-swingup-sparse,Ours,2,h3tdnlks,812.32,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,dog-stand,Ours,0,h274p60s,959.6927,2.6,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,dog-stand,Ours,1,7n72p4i2,982.7634,2.6,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,dog-stand,Ours,2,v5qfhqpf,984.5973,2.6,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,dog-trot,Ours,0,l6rolwpb,936.1311,2.65,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,dog-trot,Ours,1,u5vb87n8,922.941,2.65,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,dog-trot,Ours,2,qv9wt2n5,795.7552,2.6,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,finger-turn-hard,Ours,0,oiluinui,934.66,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,finger-turn-hard,Ours,1,kbfxmh1u,908.22,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,finger-turn-hard,Ours,2,slxkk9wb,935.44,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,hopper-stand,Ours,0,o75a3hr5,948.1903,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,hopper-stand,Ours,1,ri9nzyog,965.2995,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,hopper-stand,Ours,2,ke71x1ee,945.508,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,humanoid-stand,Ours,0,nip1v94c,953.7633,2.65,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,humanoid-stand,Ours,1,e4ex7hob,951.2942,2.65,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,humanoid-stand,Ours,2,l6jggiqs,956.0753,2.7,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,humanoid-walk,Ours,0,6ihktrj0,954.0124,2.7,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,humanoid-walk,Ours,1,6dv6itmj,941.3193,2.65,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,humanoid-walk,Ours,2,2kr28jay,945.9201,2.7,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,quadruped-walk,Ours,0,zrbr5li6,961.2738,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,quadruped-walk,Ours,1,rp37iw9y,950.2676,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,quadruped-walk,Ours,2,wv3978ib,961.0047,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,walker-stand,Ours,0,0trypztv,993.6143,3.0,3.0,False,full curve,ours (this work)
+our_runs,dmcontrol,walker-stand,Ours,1,ov1hp820,993.1771,2.75,3.0,True,full curve,ours (this work)
+our_runs,dmcontrol,walker-stand,Ours,2,ixp54tkv,991.1783,3.0,3.0,False,full curve,ours (this work)
+external_reference,humanoidbench_wbm,basketball,TDMPC2,0,seed_0,94.9197,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,basketball,TDMPC2,1,seed_1,109.7302,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,basketball,TDMPC2,2,seed_2,97.7086,2.0,2.0,False,full curve,HumanoidBench official release
+our_runs,humanoidbench_wbm,basketball,Ours,0,gibw20qz,586.3062,2.95,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,basketball,Ours,1,btolans4,526.9397,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,basketball,Ours,2,mmkdtsfn,523.124,2.95,3.0,False,full curve,ours (this work)
+external_reference,humanoidbench_wbm,bookshelf_simple,TDMPC2,0,seed_0,109.342,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,bookshelf_simple,TDMPC2,1,seed_1,68.29,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,bookshelf_simple,TDMPC2,2,seed_2,222.5442,2.0,2.0,False,full curve,HumanoidBench official release
+our_runs,humanoidbench_wbm,bookshelf_simple,Ours,0,fbdyj3be,838.3848,2.95,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,bookshelf_simple,Ours,1,zrxn4ze3,798.7257,2.9505,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,bookshelf_simple,Ours,2,3o91dgv6,785.5488,2.9502,3.0,False,full curve,ours (this work)
+external_reference,humanoidbench_wbm,bookshelf_hard,TDMPC2,0,seed_0,49.0306,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,bookshelf_hard,TDMPC2,1,seed_1,19.0393,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,bookshelf_hard,TDMPC2,2,seed_2,34.5236,2.0,2.0,False,full curve,HumanoidBench official release
+our_runs,humanoidbench_wbm,bookshelf_hard,Ours,0,e8wm93jn,629.1483,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,bookshelf_hard,Ours,1,eu18ftd9,659.3019,2.9502,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,bookshelf_hard,Ours,2,iy7onpbc,611.5146,2.9501,3.0,False,full curve,ours (this work)
+external_reference,humanoidbench_wbm,door,TDMPC2,0,seed_0,97.0867,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,door,TDMPC2,1,seed_1,119.1749,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,door,TDMPC2,2,seed_2,283.1011,2.0,2.0,False,full curve,HumanoidBench official release
+our_runs,humanoidbench_wbm,door,Ours,0,2r7nkis0,304.0357,2.9508,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,door,Ours,1,eadjp9at,311.9137,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,door,Ours,2,onyg7e0n,308.0662,2.9507,3.0,False,full curve,ours (this work)
+external_reference,humanoidbench_wbm,truck,TDMPC2,0,seed_0,1151.3497,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,truck,TDMPC2,1,seed_1,1143.0837,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,truck,TDMPC2,2,seed_2,1181.7884,2.0,2.0,False,full curve,HumanoidBench official release
+our_runs,humanoidbench_wbm,truck,Ours,0,x8s8heg0,1229.9421,3.0,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,truck,Ours,1,xbhpz2ct,1409.0343,3.0,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,truck,Ours,2,t4czncvj,1526.5321,3.0,3.0,False,full curve,ours (this work)
+external_reference,humanoidbench_wbm,window,TDMPC2,0,seed_0,48.2247,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,window,TDMPC2,1,seed_1,52.2195,2.0,2.0,False,full curve,HumanoidBench official release
+external_reference,humanoidbench_wbm,window,TDMPC2,2,seed_2,86.7958,2.0,2.0,False,full curve,HumanoidBench official release
+our_runs,humanoidbench_wbm,window,Ours,0,3gkfubj1,563.2679,2.9505,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,window,Ours,1,hhzjq2jd,434.8174,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_wbm,window,Ours,2,uuj28sur,651.8409,2.9502,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,walk,TDMPC2,0,20241023-231620-1,931.2099,1.9506,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,walk,TDMPC2,1,20241024-025025-2,897.9701,1.9506,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,walk,TDMPC2,2,20241026-192316-3,929.126,1.951,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,walk,TDMPC2,3,20241120-025426-8,862.4518,1.9508,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,walk,TDMPC2,4,20241123-002638-6,833.2535,1.9508,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,walk,BMPC,0,20241121-220544-6,817.9305,1.9508,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,walk,BMPC,1,20241125-141524-9,800.2545,1.9508,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,walk,BMPC,2,20241230-211525-10,703.0007,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,walk,BMPC,3,20250110-174802-11,721.2063,1.9507,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,walk,BMPC,4,20250114-210543-12,838.8627,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,walk,Ours,0,kokwe1sx,918.7076,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,walk,Ours,1,rjmw4i87,906.1983,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,walk,Ours,2,1nbdo8nn,906.8178,2.9508,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,stand,TDMPC2,0,20241023-231620-1,550.5577,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stand,TDMPC2,1,20241024-025025-2,900.9761,1.9504,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stand,TDMPC2,2,20241026-192316-3,714.6492,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stand,TDMPC2,3,20241120-020225-6,808.5072,1.9507,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stand,TDMPC2,4,20241120-025427-8,794.9081,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stand,BMPC,0,20241121-220544-6,820.0659,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stand,BMPC,1,20241125-141525-9,897.1281,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stand,BMPC,2,20241230-211525-10,851.2093,1.9502,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stand,BMPC,3,20250110-174802-11,748.91,1.9504,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stand,BMPC,4,20250114-210542-12,749.341,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stand,Ours,0,p9gq3f2k,935.9605,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,stand,Ours,1,oa8gzth1,930.0931,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,stand,Ours,2,vv0v0r8t,933.9252,2.9504,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,run,TDMPC2,0,20241023-231620-1,154.5336,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,run,TDMPC2,1,20241024-025025-2,67.8398,1.9508,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,run,TDMPC2,2,20241026-192316-3,161.411,1.9505,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,run,TDMPC2,3,20241120-020225-6,396.6278,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,run,TDMPC2,4,20241120-025427-8,197.8652,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,run,BMPC,0,20241121-220544-6,187.4749,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,run,BMPC,1,20241125-141524-9,210.6455,1.9509,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,run,BMPC,2,20241230-211525-10,188.7473,1.9503,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,run,BMPC,3,20250110-174802-11,198.6684,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,run,BMPC,4,20250114-210542-12,193.2226,1.9504,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,run,Ours,0,a52jogd7,248.8995,2.9502,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,run,Ours,1,yi01a5q1,891.4204,2.9502,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,run,Ours,2,ybwqayat,832.5997,2.9502,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,crawl,TDMPC2,0,20241023-232042-1,904.1787,2.0,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,crawl,TDMPC2,1,20241024-101913-2,836.0254,2.0,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,crawl,TDMPC2,2,20241026-192100-3,854.8475,2.0,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,crawl,TDMPC2,3,20241120-020225-6,861.1595,2.0,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,crawl,TDMPC2,4,20241120-025427-8,653.5283,2.0,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,crawl,BMPC,0,20241121-220544-6,964.6514,2.0,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,crawl,BMPC,1,20241125-141525-9,937.9107,2.0,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,crawl,BMPC,2,20241230-211525-10,963.0924,2.0,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,crawl,BMPC,3,20250110-174802-11,902.6157,2.0,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,crawl,BMPC,4,20250114-210542-12,948.216,2.0,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,crawl,Ours,0,wzkmtd8z,837.7671,3.0,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,crawl,Ours,1,j5fz2g3f,837.6817,3.0,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,crawl,Ours,2,jzqta4pp,890.7719,3.0,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,maze,TDMPC2,0,20241023-232042-1,198.2703,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,maze,TDMPC2,1,20241024-025447-2,236.7175,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,maze,TDMPC2,2,20241026-192100-3,219.6062,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,maze,TDMPC2,3,20241120-020225-6,180.4646,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,maze,TDMPC2,4,20241120-025427-8,142.6873,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,maze,BMPC,0,20241121-220544-6,309.5805,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,maze,BMPC,1,20241125-141524-9,309.6704,1.9508,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,maze,BMPC,2,20241230-211525-10,338.5696,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,maze,BMPC,3,20250110-174802-11,308.2611,1.9508,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,maze,BMPC,4,20250114-210543-12,360.8333,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,maze,Ours,0,0g5mrbou,353.5429,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,maze,Ours,1,t26phx8r,354.6748,2.9504,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,maze,Ours,2,eoqno2va,349.7088,2.9508,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,stair,TDMPC2,0,20241023-231620-1,43.0947,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stair,TDMPC2,1,20241024-025025-2,74.5541,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stair,TDMPC2,2,20241026-192316-3,72.4017,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stair,TDMPC2,3,20241120-020225-6,75.6645,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stair,TDMPC2,4,20241120-025426-8,65.4798,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,stair,BMPC,0,20241121-220544-6,506.3475,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stair,BMPC,1,20241125-141524-9,296.1228,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stair,BMPC,2,20241230-211525-10,408.3307,1.9507,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stair,BMPC,3,20250110-174802-11,500.3405,1.9509,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stair,BMPC,4,20250114-210542-12,399.7278,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,stair,Ours,0,dh987w6i,462.4838,2.95,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,stair,Ours,1,3p547hg4,472.2582,2.7504,3.0,True,full curve,ours (this work)
+our_runs,humanoidbench_loco,stair,Ours,2,xxltmeni,448.8949,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,slide,TDMPC2,0,20241023-232042-1,218.5789,1.951,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,slide,TDMPC2,1,20241024-101913-2,216.2119,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,slide,TDMPC2,2,20241026-192100-3,264.4148,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,slide,TDMPC2,3,20241120-020225-6,190.6925,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,slide,TDMPC2,4,20241120-025427-8,158.3655,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,slide,BMPC,0,20241121-220544-6,515.1731,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,slide,BMPC,1,20241125-141524-9,335.4904,1.9502,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,slide,BMPC,2,20241230-211525-10,437.882,1.9502,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,slide,BMPC,3,20250110-174802-11,508.3791,1.9504,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,slide,BMPC,4,20250114-210542-12,485.1131,1.9503,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,slide,Ours,0,lk1rde7j,911.0522,2.9507,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,slide,Ours,1,bm1jt1j2,916.1309,2.9509,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,slide,Ours,2,4u9g33v7,902.2978,2.9508,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,sit_simple,TDMPC2,0,20241023-232046-1,682.2892,1.9503,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_simple,TDMPC2,1,20241024-025447-2,62.6862,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_simple,TDMPC2,2,20241026-192100-3,393.2746,1.9504,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_simple,TDMPC2,3,20241120-020225-6,248.6782,1.9508,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_simple,TDMPC2,4,20241120-025426-8,407.1972,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_simple,BMPC,0,20241121-220544-6,668.1696,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_simple,BMPC,1,20241125-141525-9,701.5191,1.9507,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_simple,BMPC,2,20241230-211525-10,714.6563,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_simple,BMPC,3,20250110-174802-11,833.7235,1.9502,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_simple,BMPC,4,20250114-210542-12,790.3434,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_simple,Ours,0,hzatw4e9,882.9952,2.9506,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,sit_simple,Ours,1,cj32goac,898.89,1.1003,3.0,True,full curve,ours (this work)
+our_runs,humanoidbench_loco,sit_simple,Ours,2,dz7uabm6,937.8011,2.9509,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,sit_hard,TDMPC2,0,20241023-231620-1,824.7782,1.9508,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_hard,TDMPC2,1,20241024-025025-2,850.3897,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_hard,TDMPC2,2,20241026-192316-3,811.2586,1.9507,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_hard,TDMPC2,3,20241120-020225-6,452.1606,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_hard,TDMPC2,4,20241120-025427-8,782.3822,1.9509,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,sit_hard,BMPC,0,20241121-222809-6,633.5261,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_hard,BMPC,1,20241125-141525-9,595.8772,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_hard,BMPC,2,20241230-211525-10,668.1284,1.95,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_hard,BMPC,3,20250110-174802-11,738.1597,1.9504,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_hard,BMPC,4,20250114-210542-12,579.2101,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,sit_hard,Ours,0,iklpdqt3,669.7018,2.9004,3.0,True,full curve,ours (this work)
+our_runs,humanoidbench_loco,sit_hard,Ours,1,cirxbo9z,848.6446,2.9504,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,sit_hard,Ours,2,3cjtjaug,386.2585,2.9505,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,pole,TDMPC2,0,20241023-232042-1,187.1235,1.9503,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,pole,TDMPC2,1,20241024-101913-2,118.8315,1.9504,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,pole,TDMPC2,2,20241026-192100-3,167.9305,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,pole,TDMPC2,3,20241120-020225-6,155.3885,1.9505,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,pole,TDMPC2,4,20241120-025427-8,148.7444,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,pole,BMPC,0,20241121-220544-6,725.4668,1.9504,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,pole,BMPC,1,20241125-141525-9,614.1025,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,pole,BMPC,2,20241230-211525-10,812.5659,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,pole,BMPC,3,20250110-174802-11,813.3981,1.9507,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,pole,BMPC,4,20250114-210543-12,634.4844,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,pole,Ours,0,wx68h2te,848.5799,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,pole,Ours,1,frmhe0gf,935.6088,2.9509,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,pole,Ours,2,27avlg3z,851.5077,2.9504,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_simple,TDMPC2,0,20241023-231620-1,149.1881,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_simple,TDMPC2,1,20241024-025025-2,93.8395,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_simple,TDMPC2,2,20241026-192316-3,98.8073,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_simple,TDMPC2,3,20241120-020225-6,120.1239,1.9501,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_simple,TDMPC2,4,20241120-025427-8,139.8224,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_simple,BMPC,0,20241121-220544-6,658.5803,1.9507,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_simple,BMPC,1,20241125-141524-9,685.685,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_simple,BMPC,2,20241230-211525-10,472.8094,1.9506,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_simple,BMPC,3,20250110-174802-11,798.4617,1.9509,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_simple,BMPC,4,20250114-210543-12,748.596,1.95,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_simple,Ours,0,7qws7z3s,524.1587,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_simple,Ours,1,1fa0midp,907.6774,2.9504,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_simple,Ours,2,4jsimg2v,885.1234,2.9505,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_simple,Ours,3,hlrsu7cm,744.6746,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,hurdle,TDMPC2,0,20241023-232042-1,68.2803,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,hurdle,TDMPC2,1,20241024-101913-2,66.4719,1.951,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,hurdle,TDMPC2,2,20241026-192100-3,128.6365,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,hurdle,TDMPC2,3,20241120-020225-6,93.8082,1.9502,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,hurdle,TDMPC2,4,20241120-025427-8,74.1588,1.9504,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,hurdle,BMPC,0,20241121-220544-6,225.3917,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,hurdle,BMPC,1,20241125-141525-9,202.6879,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,hurdle,BMPC,2,20241230-211525-10,225.934,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,hurdle,BMPC,3,20250110-174802-11,197.0119,1.9505,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,hurdle,BMPC,4,20250114-210542-12,211.4852,1.95,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,hurdle,Ours,0,juta81kn,430.4979,2.9503,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,hurdle,Ours,1,zxif16v0,681.0002,2.9509,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,hurdle,Ours,2,39ghecsh,285.6535,2.9007,3.0,True,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_hard,TDMPC2,0,20241023-231620-1,84.9633,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_hard,TDMPC2,1,20241024-025025-2,117.6844,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_hard,TDMPC2,2,20241026-192316-3,90.4363,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_hard,TDMPC2,3,20241120-020225-6,92.0297,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_hard,TDMPC2,4,20241120-025427-8,122.6308,1.95,2.0,False,full curve,TD-MPC2 re-run (this work)
+our_runs,humanoidbench_loco,balance_hard,BMPC,0,20241121-220544-6,78.5747,1.95,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_hard,BMPC,1,20241125-141524-9,86.4841,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_hard,BMPC,2,20241230-211525-10,93.6107,1.9501,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_hard,BMPC,3,20250110-174802-11,87.8677,1.95,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_hard,BMPC,4,20250114-210542-12,74.2095,1.95,2.0,False,full curve,BMPC authors
+our_runs,humanoidbench_loco,balance_hard,Ours,0,drbgahmk,709.7136,2.951,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_hard,Ours,1,r4sc6vle,115.2941,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_hard,Ours,2,8fx27g4e,270.6851,2.9501,3.0,False,full curve,ours (this work)
+our_runs,humanoidbench_loco,balance_hard,Ours,3,w0ztiei4,452.3796,2.9502,3.0,False,full curve,ours (this work)
